@@ -1,0 +1,70 @@
+import random
+import pyprimes
+import hashlib
+
+testQ = 58734851801734507503094530527721573648685450046856371683007962830375766857050
+testP = 2133095556325189387053323948744982181407977106277171746220929006568535058790499320860687394837708719907230381733879820985997267051272611427239026682972276871314754955463946436362432315591412835853191609834793819866564998605083122339411621713812770728951473067254983429128875261897925014499604844321195044063509288390779747713376427845711343908313658466031107336059011839178673359701214853668424396184217436359971519629953538517485066963155458888556672100150684481403388455132755202921734061294100277092631011264707059796981895206329542805028770180675469813595593040032133631036551047545312859672467497732347208151641015143594573089203366472431246831940576920422066532786301749614411749004794582791556783327856848207450668473711329630502094480501383036634165904099233918927002497844081851110754144794457357999072076860946557713929352435816657440214258450100169476491456090583156229704908822185603973414835220094975540040221351
+
+
+def Generate_P_Q():
+	qPrime = False
+	while not qPrime:
+		q = random.getrandbits(256)
+		qPrime = pyprimes.isprime(q)
+
+	pPrime = False
+	while not pPrime:
+		k = random.getrandbits(2816)
+		p = k*q + 1
+		if pyprimes.isprime(p):
+			pPrime = True
+#	print("[+] Found p, q, k => \np: {}\nq: {}\nk:{}\n".format(p, q, k))
+	return p, q, k
+
+
+def Generate_G(p, q, k):
+	a = random.randint(2,p-1)
+	g = 1
+	while g == 1:
+		g = pow(a,k,p)
+
+#	print("[+] Found g =>\ng: {}".format(g))
+	return g
+
+
+
+def Param_Generator(qbound, pbound):
+	p, q, k = Generate_P_Q()
+#	p = testP
+#	q = testQ
+	g = Generate_G(p, q, k)
+	return q, p, g
+
+
+
+
+def Verifiably_Random_Generator(p, q):
+	loop = True
+	while(loop):
+		rho = random.randint(1,q)
+		shaRes = int.from_bytes(hashlib.sha256(str(rho).encode('utf-8')).digest(), byteorder = 'big') % q
+		Gi = pow(shaRes, (p-1)//q, p)
+		print(Gi)
+		if Gi != 1:
+			loop = False
+	return Gi, rho
+
+
+
+def KeyGen(p, q, g):
+	s = random.randint(1, q-1)
+	h = pow(g,s,p)
+	return s, h
+
+
+if __name__ == "__main__":
+#	print(Param_Generator(1,1))
+#	result = Verifiably_Random_Generator(testP, testQ)
+#	print("\n\n\n RESULT:\n\n\n")
+#	print(result)
+	exit()
