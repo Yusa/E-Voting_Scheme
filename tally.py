@@ -49,14 +49,34 @@ def FullDecryption(X, Y, a, Omega, G, t, p, q, k, ell):
 		else:
 			result *= pow(y_s[i], div, p)
 		###############################
+	# print("p: ", len(str(p)), p)
+	# print("Y: ", len(str(Y)), Y)
+	# print("Result1: ", len(str(result)), result)
 	result = _divmod(Y, result, p)
+	# print("Result2: ", len(str(result)), result)
 	result %= p
 	votes = vote_gen.vote_cnt(G, p, k, ell, result)
 	return votes
 
 
 def CheckQuorum(a, h_a_lambda, p, q):
-	return
+	result = 1
+
+	for i in range(len(a)):
+		inLamda = 1
+		for j in range(len(a)):
+			if i != j:
+				m = a[j] + 1
+				ai = a[i] + 1
+				temp = m * (pow(m-ai, q-2, q)) % q
+				inLamda *= temp
+
+		result *= pow(h_a_lambda[i], inLamda, p)
+		result %= p
+
+	# print("RESULT2: ", result)
+
+	return result
 
 
 def ZK_commonexp(Lambda_i, h_a_lambda_i, Omega_i, p, q):
