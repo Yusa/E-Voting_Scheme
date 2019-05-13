@@ -29,7 +29,7 @@ def decrypt(X, Y, p, q, s):
 	return yxs
 
 
-def vote_cnt(G, p, k, ell, result, votesR):
+def vote_cnt(G, p, k, ell, result):
 	voteList = list(f(k,ell))
 	resVotes = None
 	for votes in voteList:
@@ -40,16 +40,12 @@ def vote_cnt(G, p, k, ell, result, votesR):
 		
 		if resTry == result:
 			resVotes = votes
-			print("Suc Exhaust: ", resTry)
-			print("Suc Origres: ", result)
-			break
-
-		if votes == votesR:
-			print("Exhaust: ", resTry)
-			print("Origres: ", result)
+			# print("Suc Exhaust: ", resTry)
+			# print("Suc Origres: ", result)
 			break
 
 	return resVotes
+
 
 ######### HELPERS ##########
 

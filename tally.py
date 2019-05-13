@@ -2,7 +2,6 @@ import random
 import vote_gen
 import functools
 import math
-from decimal import Decimal
 
 def ShamirSecretSharing(n, t, s, q):
 	# all parameteres are int
@@ -22,14 +21,10 @@ def PartialDecryption(X, a, Lambda, t, p):
 
 
 # Decryption Function
-def FullDecryption(X, Y, a, Omega, G, t, p, q, k, ell, Lambda, votesR):
+def FullDecryption(X, Y, a, Omega, G, t, p, q, k, ell):
 	result = 1
-
-	print(Omega)
-
 	x_s, y_s = zip(*Omega)
 
-	result = 1
 	for i in range(t):
 		noms = 1
 		dens = 1
@@ -38,36 +33,25 @@ def FullDecryption(X, Y, a, Omega, G, t, p, q, k, ell, Lambda, votesR):
 				noms *= x_s[j]
 				dens *= (x_s[j] - x_s[i])
 
-		div = noms/dens
-		print("Float Div: ", div)
-		div2 = int(div)
-		print("Int Div: ", div2)
+		############# V1 ##############
+		div = noms * (pow(dens, q-2, q) % q)
+		div %= q
+		# print("Float Div: ", div)
+		div = int(div)
+		# print("Int Div: ", div)
 
-		print("Div: ", div)
+		# print("Div: ", div)
 		if div < 0:
 			div = abs(div)
 			temp = pow(y_s[i], p-2, p)
-			power = pow(temp, div)
-			result *= power
-			result %= p
+			result *= pow(temp, div, p)
 
 		else:
-			power = pow(y_s[i], div)
-			result *= pow(power, div)
-			result %= p
-
-
-#	result %= p
-	print("[+] Big Denominator: ", result)
+			result *= pow(y_s[i], div, p)
+		###############################
 	result = _divmod(Y, result, p)
 	result %= p
-	print("[+] Y / Big Denominator: ", result)
-
-
-	votes = vote_gen.vote_cnt(G, p, k, ell, result, votesR)
-	print(votes)
-
-
+	votes = vote_gen.vote_cnt(G, p, k, ell, result)
 	return votes
 
 
@@ -94,9 +78,9 @@ def split_secret(secret, threshold, nmany, prime):
     poly = [secret]
     poly1 = [random.randint(0, prime) for i in range(threshold - 1)]
     poly.extend(poly1)
-    print("Poly: ", poly)
+    # print("Poly: ", poly)
     points = [(i, _eval_at(poly, i, prime)) for i in range(1, nmany + 1)]
-    print("Points: ", points)
+    # print("Points: ", points)
     return points
 
 

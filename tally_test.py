@@ -74,7 +74,7 @@ print("Omega: ", Omega)
 
 # Perform Full Decryption
 # votes_ = tally.FullDecryption(X, Y, a, Omega, G, t, p, q)
-votes_ = tally.FullDecryption(X, Y, a, Omega, G, t, p, q, k, ell, Lambda, votes)
+votes_ = tally.FullDecryption(X, Y, a, Omega, G, t, p, q, k, ell)
 if votes_ == votes:
     print("Success:))") 
     print("Election result: ", votes_)
