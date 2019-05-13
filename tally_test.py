@@ -73,13 +73,14 @@ Omega = tally.PartialDecryption(X, a, Lambda, t, p)
 print("Omega: ", Omega)
 
 # Perform Full Decryption
-votes_ = tally.FullDecryption(Y, a, Omega, G, t, p, q)
+# votes_ = tally.FullDecryption(X, Y, a, Omega, G, t, p, q)
+votes_ = tally.FullDecryption(X, Y, a, Omega, G, t, p, q, k, ell, Lambda, votes)
 if votes_ == votes:
     print("Success:))") 
     print("Election result: ", votes_)
 else:
     print("Failure:((")
-
+exit()
 # Check if it is a good quorum
 # This time, it is good
 h_a_lambda = [0]*t
