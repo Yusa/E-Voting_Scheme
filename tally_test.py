@@ -88,19 +88,18 @@ for i in range(0, t):
     h_a_lambda[i] = h_a[a[i]]
 
 h_ = tally.CheckQuorum(a, h_a_lambda, p, q)
-print("RESULTO: ", h)
 if h_ == h:
     print("Success: Good quorum:))") 
 else:
     print("Failure:Bad quorum:((")
 
     
-# # Zero-Knowledge proof of common exponent
-# i = random.randint(0,t-1) # pick a random tallying authority in the quorum
-# if (tally.ZK_commonexp(Lambda[i], h_a_lambda[i], Omega[i], p, q) == True):
-#     print("Success: Zero-Knowledge proof of common exponent:)")
-# else:
-#     print("Failure: Zero-Knowledge proof of common exponent:(")
+# Zero-Knowledge proof of common exponent
+i = random.randint(0,t-1) # pick a random tallying authority in the quorum
+if (tally.ZK_commonexp(Lambda[i], h_a_lambda[i], Omega[i], p, q, g, X) == True):
+    print("Success: Zero-Knowledge proof of common exponent:)")
+else:
+    print("Failure: Zero-Knowledge proof of common exponent:(")
 
 # Check if it is a good quorum
 # This time, it is bad
@@ -114,12 +113,12 @@ if h_ == h:
     print("Success: Good quorum:))") 
 else:
     print("Failure:Bad quorum:((")
-exit()    
+
 # Zero-Knowledge proof of common exponent
 # This is bad
 i = random.randint(0,t-1) # pick a random tallying authority in the quorum
 Omega[i] = random.randint(0,q) # bad one
-if (tally.ZK_commonexp(Lambda[i], h_a_lambda[i], Omega[i], p, q) == True):
+if (tally.ZK_commonexp(Lambda[i], h_a_lambda[i], Omega[i], p, q, g, X) == True):
     print("Success: Zero-Knowledge proof of common exponent:)")
 else:
     print("Failure: Zero-Knowledge proof of common exponent:(")    

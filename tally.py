@@ -79,8 +79,41 @@ def CheckQuorum(a, h_a_lambda, p, q):
 	return result
 
 
-def ZK_commonexp(Lambda_i, h_a_lambda_i, Omega_i, p, q):
-	return
+def ZK_commonexp(Lambda_i, h_a_lambda_i, Omega_i, p, q, g, X):
+	#prover
+	if isinstance(Omega_i, tuple):
+		Omega_i = Omega_i[1]
+
+	upperB = q * Lambda_i
+	r = random.randint(1,upperB)
+	rOverSa = int(r / Lambda_i)
+	r = rOverSa * Lambda_i
+	gToR = pow(h_a_lambda_i, rOverSa, p)
+	xToR = pow(Omega_i, rOverSa, p)
+	#verifier
+	c = random.randint(1, q)
+	#prover
+	z = r + c*Lambda_i
+	#verifier
+	result1 = False
+	result2 = False
+	
+	val1 = (pow(g, z, p)) % p
+	val2 = gToR * (pow(h_a_lambda_i, c, p)) % p
+
+	result1 = val1 == val2
+	# print("Val1: ", val1)
+	# print("Val2: ", val2)
+	# print("Res1: ", result1)
+
+	val3 = pow(X, z, p) % p
+	val4 = xToR * (pow(Omega_i, c, p)) % p
+	result2 = val3 == val4
+	# print("Val3: ", val3)
+	# print("Val4: ", val4)
+	# print("Res2: ", result2)
+
+	return result1 and result2
 
 
 # HELPERS
