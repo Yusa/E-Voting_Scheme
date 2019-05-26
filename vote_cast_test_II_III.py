@@ -45,6 +45,11 @@ def run_protocol(p, q, g, G, vote, j, h):
     # Step 5 by voter: accepts u, v and generates the final vote
     accept, xf, yf = vote_cast_II.voter_V(p, q, g, h, x, y, f, u, v, e, d, sigma)
     print("voter accepts u and v: ", accept)
+    # print("x:", x)
+    # print("xf:", xf)
+    # print("y:", y)
+    # print("yf:", yf)
+
     if(x==xf or y==yf):
         print("This is not a final vote!!!")
 
@@ -131,6 +136,7 @@ if (x == pow(g, r, p) and y == (pow(h,r,p)*G[j-1])%p):
     print("(x, y) is indeed a vote for G_"+str(j))
 else:
     print("(x, y) is not a vote for G_"+str(j))
+
     
 # Transform the original vote (x,y) to a vote for G_3 (k=3)
 k = 3
