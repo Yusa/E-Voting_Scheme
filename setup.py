@@ -49,7 +49,7 @@ def Verifiably_Random_Generator(p, q):
 		rho = random.randint(1,q)
 		shaRes = int.from_bytes(hashlib.sha256(str(rho).encode('utf-8')).digest(), byteorder = 'big') % q
 		Gi = pow(shaRes, (p-1)//q, p)
-		print(Gi)
+		# print(Gi)
 		if Gi != 1:
 			loop = False
 	return Gi, rho
